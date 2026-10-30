@@ -1,0 +1,38 @@
+[project]
+name = "gateway"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "pawelmatuszak", email = "pawelxmatuszak@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "redis>=8.1.0",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+gateway = "gateway:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1",
+    "ruff>=0.17.3",
+]
+
+[tool.pytest]
+minversion = "9.0"
+asyncio_mode = "auto"
+markers = [
+    "lab: concurrency labs; fire many parallel requests",
+    "e2e: end-to-end flow through the full docker compose stack"
+]
+addopts = ["--strict-markers"]

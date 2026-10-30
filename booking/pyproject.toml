@@ -1,0 +1,42 @@
+[project]
+name = "booking"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "pawelmatuszak", email = "pawelxmatuszak@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "aio-pika>=10.2.1",
+    "alembic>=1.20.1",
+    "asyncpg>=0.32.0",
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.16.2",
+    "sqlalchemy>=2.1.6",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+booking = "booking:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1",
+    "ruff>=0.17.3",
+]
+
+[tool.pytest]
+minversion = "9.0"
+asyncio_mode = "auto"
+markers = [
+    "lab: concurrency labs; fire many parallel requests",
+    "e2e: end-to-end flow through the full docker compose stack"
+]
+addopts = ["--strict-markers"]

@@ -1,0 +1,48 @@
+services:
+  postgres: 
+    image: postgres:17
+    environment:
+      POSTGRES_USER: tickets
+      POSTGRES_PASSWORD: tickets
+    ports:
+      - 5432:5432
+    volumes:
+       - pg_data:/var/lib/postgresql/data
+       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "tickets"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  redis:
+    image: redis:7
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    hostname: rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  pg_data:
+  rabbitmq_data:
+  redis_data:
